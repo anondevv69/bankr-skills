@@ -61,3 +61,23 @@ Response:
   does not see anyone's private chat signals.
 - If it 503s ("Jev is not configured"), say so plainly and fall back to your
   own judgment — don't retry in a loop.
+
+## Run it on autopilot (Bankr-only users)
+
+This skill is the *judgment*. A scheduled command is the *loop* — Bankr has
+these natively as Automations (requires Bankr Club, $20/mo, for unlimited
+messages and scheduled commands; the free tier caps at 5 messages/day).
+
+Set up one scheduled command:
+
+- **Schedule:** every 15 minutes
+- **Prompt:** "Check my chats and watchlists for new token mentions since
+  the last run. For each new candidate, run the jev-judge skill. For any
+  'buy' verdict, execute the trade from my wallet at the suggested size_pct.
+  Respect my guardrails: never risk more than 15% of my portfolio on one
+  token, never have more than 80% deployed, stop-loss -40% on every
+  position, take-profit: sell half at +100%. Report each trade: token,
+  size, price, thesis, tx hash."
+
+No Muse, no external cron, no code — the whole autonomous loop runs inside
+Bankr: the Automation wakes you, jev-judge decides, your wallet executes.
