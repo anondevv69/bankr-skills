@@ -81,3 +81,20 @@ Set up one scheduled command:
 
 No Muse, no external cron, no code — the whole autonomous loop runs inside
 Bankr: the Automation wakes you, jev-judge decides, your wallet executes.
+
+## Alpha feed (broadcast)
+
+fren's live trading engine publishes every executed trade to a public feed:
+
+- **Poll:** `GET https://api-production-8630.up.railway.app/v1/signal-alerts`
+  (latest first; `?decision=buy` filters). No auth needed.
+- **Push:** register a webhook at the musemaxxing API:
+  `POST /v1/webhooks {"url": "https://you.example/hook", "events": ["signal_alert"]}`
+  — alerts arrive HMAC-SHA256 signed.
+
+Each alert carries: decision (buy/sell), chain, contract address, symbol,
+Jev Noul, suggested size tier, price, tx hash, and the thesis. Only
+real-money executions are published — never paper calls.
+
+In a scheduled command, poll the feed each run and judge anything new with
+the endpoint above before acting.
